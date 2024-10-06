@@ -4,8 +4,8 @@ import ReactDOM from "react-dom/client";
 // jsx or relact element
 const elem = <span>React Element ,</span>
 
-// using react element in react element
-const Title =  (
+// usingreact component
+const Title =  ()=>  (
 <h1 className="head" tabIndex="5">
     {elem}
    I am component in component</h1>
@@ -13,10 +13,12 @@ const Title =  (
 
 
 // React Functional Component
-// using react element in component
-const HeadingComponent = () => (
+// using react component in three different ways
+const HeadingComponent = () => ( 
     <div>
-        {Title}
+        {Title()}
+        <Title/>
+        <Title></Title>
         <h1 className="heading"> Namaste React Functional Component1</h1>
         <h1 className="heading2"> Namaste React Functional Component2</h1>
     </div>
