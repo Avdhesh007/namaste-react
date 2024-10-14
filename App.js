@@ -1,27 +1,55 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// jsx or relact element
-const elem = <span>React Element ,</span>;
+/**
+ * Header
+ * - Logo
+ * - Nav Items
+ * Body
+ * - Search
+ * - RestaurantContainer
+ *  - Restaurant card
+ * Footer
+ *  - CopyRight
+ *  - Links
+ *  - Address
+ *  - Contact
+ */
 
-// usingreact component
-const Title = () => (
-  <h1 className="head" tabIndex="5">
-    {elem}I am component in component
-  </h1>
-);
+const Header = () => {
+  return (
+    <div className="header">
+      <div className="logo-container">
+        <img
+          className="logo"
+          src="https://www.logodesign.net/logo/smoking-burger-with-lettuce-3624ld.png?industry=COMPANY+NAME"
+        ></img>
+      </div>
+      <div className="nav-items">
+        <ul>
+          <li>Home</li>
+          <li>About Us</li>
+          <li>Contact Us</li>
+          <li>Cart</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
 
-// React Functional Component
-// using react component in three different ways
-const HeadingComponent = () => (
-  <div>
-    {Title()}
-    <Title />
-    <Title></Title>
-    <h1 className="heading"> Namaste React Functional Component1</h1>
-    <h1 className="heading2"> Namaste React Functional Component2</h1>
-  </div>
-);
+const AppLayout = () => {
+  return (
+    <div className="app">
+      {" "}
+      {
+        // Header
+        <Header />
+        //Body
+        // Footer
+      }
+    </div>
+  );
+};
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<HeadingComponent />);
+root.render(<AppLayout />);
