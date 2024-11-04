@@ -1,16 +1,44 @@
 import resData from "../MockData/data.json";
+import { SWIGGY_API } from "../utils/constants";
 import RestaurantCard from "./RestaurantCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
   // State variable - Super powerfull variable.
   // It can hold any type of data, including arrays, objects, etc.
   // It's a way to keep track of changes in our application state.
   // const [restaurantList, setRestaurantList] = React.useState(resData);
-  const [listOfRestaurants, setListOfRestaurants] = useState(resData);
+  const [listOfRestaurants, setListOfRestaurants] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const data = await fetch(SWIGGY_API);
+      if (!data.ok) {
+        throw new Error("Failed to fetch data");
+      }
+      const json = await data.json();
+      console.log(json);
+      // optional chaining
+      setListOfRestaurants(
+        json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants
+      );
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   // React hook - A function that lets you "react" to state changes.
   // It's a way to make your components more reusable and efficient.
+
+  if (listOfRestaurants.length === 0) {
+    return <Shimmer />;
+  }
 
   // Normal javascript variable
   return (
