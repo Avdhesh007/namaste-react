@@ -26,6 +26,14 @@ const Body = () => {
       );
     } catch (error) {
       console.error("Error fetching data:", error.message);
+      // if did not get data from api then use local data instead.
+      const json = resData;
+      console.log(json);
+      const restaurants =
+        json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants || [];
+      // optional chaining
+      setListOfRestaurants(restaurants);
     }
   };
 
@@ -36,7 +44,7 @@ const Body = () => {
   // React hook - A function that lets you "react" to state changes.
   // It's a way to make your components more reusable and efficient.
 
-  if (listOfRestaurants.length === 0) {
+  if (listOfRestaurants.length < 0) {
     return <Shimmer />;
   }
 
