@@ -5,11 +5,9 @@ import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 
 const Body = () => {
-  // State variable - Super powerfull variable.
-  // It can hold any type of data, including arrays, objects, etc.
-  // It's a way to keep track of changes in our application state.
-  // const [restaurantList, setRestaurantList] = React.useState(resData);
+  // State variables
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true); // Track loading state
 
   const fetchData = async () => {
     try {
@@ -19,21 +17,22 @@ const Body = () => {
       }
       const json = await data.json();
       console.log(json);
-      // optional chaining
-      setListOfRestaurants(
-        json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-          ?.restaurants
-      );
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-      // if did not get data from api then use local data instead.
-      const json = resData;
-      console.log(json);
+
+      // If data fetched successfully from API, use it to update the state
       const restaurants =
         json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
           ?.restaurants || [];
-      // optional chaining
       setListOfRestaurants(restaurants);
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+
+      // Use local data if API fetch fails
+      const restaurants =
+        resData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
+          ?.restaurants || [];
+      setListOfRestaurants(restaurants);
+    } finally {
+      setLoading(false); // Once the data is fetched (or failed), set loading to false
     }
   };
 
@@ -41,25 +40,26 @@ const Body = () => {
     fetchData();
   }, []);
 
-  // React hook - A function that lets you "react" to state changes.
-  // It's a way to make your components more reusable and efficient.
-
-  if (listOfRestaurants.length < 0) {
+  // Show Shimmer while loading
+  if (loading) {
     return <Shimmer />;
   }
 
-  // Normal javascript variable
+  // Show restaurant list if data is available
+  if (!listOfRestaurants || listOfRestaurants.length === 0) {
+    return <div>No Restaurants Found</div>; // Fallback UI if no restaurants are available
+  }
+
+  // Normal JavaScript variable for rendering
   return (
     <div className="body">
       <div className="filter">
         <button
           className="filter-btn"
           onClick={() => {
-            // Filter logic here
-            setListOfRestaurants(
-              listOfRestaurants.filter((res) => res.info.avgRating > 4.6)
+            setListOfRestaurants((prevList) =>
+              prevList.filter((res) => res.info.avgRating > 4.6)
             );
-            console.log(listOfRestaurants);
           }}
         >
           Top Rated Restaurant
