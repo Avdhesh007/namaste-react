@@ -6,8 +6,10 @@ const About = () => {
     <div>
       <h1>About</h1>
       <h2>This is Namaste React Web series</h2>
-      <User />
-      <UserClass />
+      <User name={"Avdhesh (function)"} />
+      <UserClass name={"Avdhesh (class)"} />
     </div>
   );
 };
+
+export default About;
