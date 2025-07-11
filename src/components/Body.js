@@ -56,7 +56,7 @@ const Body = () => {
     <div className="body">
       <div className="filter">
         <button
-          className="filter-btn"
+          className="bg-gray-200 border-black text-black border-2 hover:bg-gray-300 rounded-lg"
           onClick={() => {
             setListOfRestaurants((prevList) =>
               prevList.filter((res) => res.info.avgRating > 4.6)
