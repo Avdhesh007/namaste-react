@@ -5,6 +5,7 @@ import {
   SWIGGY_API_SELECTED_RESTAURANT,
 } from "../utils/constants";
 import { useParams } from "react-router";
+import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
   const [restaurantData, setRestaurantData] = useState(null);
@@ -43,13 +44,29 @@ const RestaurantMenu = () => {
 
   const { id, name, city, cuisines = [], costForTwoMessage } = restaurantInfo;
 
+  const categories =
+    restaurantData?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(
+      (c) =>
+        c.card?.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+    );
+
   return (
-    <div className="menu">
-      <h1>{`Name: ${name || "-"}`}</h1>
+    <div className="text-center">
+      <h1 className="font-bold my-6 text-2xl">{name}</h1>
       <h2>{`Res ID: ${id || resId}`}</h2>
       <h2>{`City: ${city || "-"}`}</h2>
       <h2>{`Cuisines: ${cuisines.join(", ") || "-"}`}</h2>
       <h2>{`Cost For Two: ${costForTwoMessage || "-"}`}</h2>
+
+      {/** Accordion */}
+
+      {categories.map((category) => (
+        <RestaurantCategory
+          key={category.card?.card?.categroyId}
+          data={category?.card?.card}
+        />
+      ))}
     </div>
   );
 };
