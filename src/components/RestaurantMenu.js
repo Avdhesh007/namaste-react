@@ -1,39 +1,55 @@
 import { useState, useEffect } from "react";
-import { SWIGGY_API_RESTAURANT } from "../utils/constants";
+import Shimmer from "./Shimmer";
+import {
+  LOCAL_PROXY,
+  SWIGGY_API_SELECTED_RESTAURANT,
+} from "../utils/constants";
 import { useParams } from "react-router";
 
 const RestaurantMenu = () => {
-  const [getRestaurants, setRestaurants] = useState([null]);
+  const [restaurantData, setRestaurantData] = useState(null);
   const { resId } = useParams();
-  // useEffect(() => {
-  //   fetchMenu();
-  // }, []);
 
-  // if (getRestaurants == null) return <Shimmer />;
+  const fetchMenu = async () => {
+    try {
+      const response = await fetch(LOCAL_PROXY, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          targetUrl: SWIGGY_API_SELECTED_RESTAURANT(resId),
+        }),
+      });
 
-  // const fetchMenu = async () => {
-  //   const data = await fetch(SWIGGY_API_RESTAURANT);
-  //   const json = await data.json;
-  //   setRestaurants(json.data);
-  //   console.log(getRestaurants);
-  // };
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
 
-  // const { id, name, city, cuisines, costForTwoMessage } =
-  //   getRestaurants?.cards[2]?.card?.card?.info;
+      const json = await response.json();
+      setRestaurantData(json.data);
+      console.log("Fetched Data:", json.data);
+    } catch (error) {
+      console.error("Error fetching menu:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenu();
+  }, [resId]); // include resId in dependencies
+
+  if (!restaurantData) return <Shimmer />;
+
+  // Safe Destructuring (guarding against undefined)
+  const restaurantInfo = restaurantData?.cards?.[2]?.card?.card?.info || {};
+
+  const { id, name, city, cuisines = [], costForTwoMessage } = restaurantInfo;
 
   return (
     <div className="menu">
-      {/* <h1>{"name : " + name}</h1>
-      <h2>{"res-id : " + id}</h2>
-      <h2>{"city : " + city}</h2>
-      <h2>{"cuisines : " + cuisines.join(",")}</h2>
-      <h2>{"costForTwo : " + costForTwoMessage}</h2> */}
-
-      <h1>{"name : "}</h1>
-      <h2>{"res-id : " + resId}</h2>
-      <h2>{"city : "}</h2>
-      <h2>{"cuisines : "}</h2>
-      <h2>{"costForTwo : "}</h2>
+      <h1>{`Name: ${name || "-"}`}</h1>
+      <h2>{`Res ID: ${id || resId}`}</h2>
+      <h2>{`City: ${city || "-"}`}</h2>
+      <h2>{`Cuisines: ${cuisines.join(", ") || "-"}`}</h2>
+      <h2>{`Cost For Two: ${costForTwoMessage || "-"}`}</h2>
     </div>
   );
 };

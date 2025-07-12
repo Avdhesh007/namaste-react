@@ -1,6 +1,6 @@
 import resData from "../MockData/data.json";
-import { SWIGGY_API } from "../utils/constants";
-import RestaurantCard from "./RestaurantCard";
+import { LOCAL_PROXY, SWIGGY_API_HOMEPAGE } from "../utils/constants";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router";
@@ -10,9 +10,15 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [loading, setLoading] = useState(true); // Track loading state
 
+  const RestaurantCardWithPromoted = withPromotedLabel(RestaurantCard);
+
   const fetchData = async () => {
     try {
-      const data = await fetch(SWIGGY_API);
+      const data = await fetch(LOCAL_PROXY, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetUrl: SWIGGY_API_HOMEPAGE }),
+      });
       if (!data.ok) {
         throw new Error("Failed to fetch data");
       }
@@ -72,7 +78,11 @@ const Body = () => {
             key={restaurant.info.id}
             to={"/restaurants/" + restaurant.info.id}
           >
-            <RestaurantCard resData={restaurant.info} />
+            {restaurant.info.id % 2 == 0 ? (
+              <RestaurantCardWithPromoted resData={restaurant.info} />
+            ) : (
+              <RestaurantCard resData={restaurant.info} />
+            )}
           </Link>
         ))}
       </div>
