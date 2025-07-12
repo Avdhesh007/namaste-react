@@ -54,8 +54,6 @@ const RestaurantMenu = () => {
   return (
     <div className="text-center">
       <h1 className="font-bold my-6 text-2xl">{name}</h1>
-      <h2>{`Res ID: ${id || resId}`}</h2>
-      <h2>{`City: ${city || "-"}`}</h2>
       <h2>{`Cuisines: ${cuisines.join(", ") || "-"}`}</h2>
       <h2>{`Cost For Two: ${costForTwoMessage || "-"}`}</h2>
 
