@@ -11,6 +11,8 @@ const RestaurantMenu = () => {
   const [restaurantData, setRestaurantData] = useState(null);
   const { resId } = useParams();
 
+  const [showIndex, setShowIndex] = useState(null);
+
   const fetchMenu = async () => {
     try {
       const response = await fetch(LOCAL_PROXY, {
@@ -56,13 +58,13 @@ const RestaurantMenu = () => {
       <h1 className="font-bold my-6 text-2xl">{name}</h1>
       <h2>{`Cuisines: ${cuisines.join(", ") || "-"}`}</h2>
       <h2>{`Cost For Two: ${costForTwoMessage || "-"}`}</h2>
-
-      {/** Accordion */}
-
-      {categories.map((category) => (
+      {/** Accordion */} {/** LIfting state up */}
+      {categories.map((category, index) => (
         <RestaurantCategory
           key={category.card?.card?.categoryId}
           data={category?.card?.card}
+          showItem={index === showIndex}
+          setShowIndex={() => setShowIndex(index === showIndex ? null : index)}
         />
       ))}
     </div>
