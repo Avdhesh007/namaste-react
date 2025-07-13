@@ -16,7 +16,7 @@ const RestaurantCategory = (props) => {
         <span className="font-bold text-lg">
           {props.data.title} ({props.data.itemCards.length})
         </span>
-        <span class="text-2xl text-gray-700 hover:text-blue-600">🔽</span>
+        <span className="text-2xl text-gray-700 hover:text-blue-600">🔽</span>
       </div>
       <div>
         {/** accordion Body */}
