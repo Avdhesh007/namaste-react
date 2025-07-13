@@ -1,14 +1,16 @@
 import resData from "../MockData/data.json";
 import { LOCAL_PROXY, SWIGGY_API_HOMEPAGE } from "../utils/constants";
 import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   // State variables
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [loading, setLoading] = useState(true); // Track loading state
+  const { loggedInUser, setUserName } = useContext(UserContext);
 
   const RestaurantCardWithPromoted = withPromotedLabel(RestaurantCard);
 
@@ -60,18 +62,30 @@ const Body = () => {
   // Normal JavaScript variable for rendering
   return (
     <div className="body">
-      <div className="filter">
-        <button
-          className="bg-gray-200 border-black text-black border-2 hover:bg-gray-300 rounded-lg"
-          onClick={() => {
-            setListOfRestaurants((prevList) =>
-              prevList.filter((res) => res.info.avgRating > 4.6)
-            );
-          }}
-        >
-          Top Rated Restaurant
-        </button>
+      <div className="flex">
+        <div className="w-5/12 flex gap-4 items-center">
+          <button
+            className="bg-gray-200 border-black text-black border-2 hover:bg-gray-300 rounded-lg px-3 py-2"
+            onClick={() => {
+              setListOfRestaurants((prevList) =>
+                prevList.filter((res) => res.info.avgRating > 4.6)
+              );
+            }}
+          >
+            Top Rated Restaurant
+          </button>
+
+          <div className="flex items-center">
+            <label className="mr-2 ">UserName:</label>
+            <input
+              className="border-2 p-2 rounded"
+              value={loggedInUser}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
+
       <div className="res-container">
         {listOfRestaurants.map((restaurant) => (
           <Link
