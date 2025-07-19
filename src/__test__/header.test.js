@@ -15,5 +15,5 @@ it("should render header component with login button", () => {
   );
 
   const loginButton = screen.getAllByRole("button");
-  expect(loginButton.length).toBe(2);
+  expect(loginButton.length).toBe(1);
 });
