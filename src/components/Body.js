@@ -3,7 +3,7 @@ import { LOCAL_PROXY, SWIGGY_API_HOMEPAGE } from "../utils/constants";
 import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
 import { useContext, useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import UserContext from "../utils/UserContext";
 
 const Body = () => {

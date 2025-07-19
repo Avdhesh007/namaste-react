@@ -4,7 +4,7 @@ import {
   LOCAL_PROXY,
   SWIGGY_API_SELECTED_RESTAURANT,
 } from "../utils/constants";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import RestaurantCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {

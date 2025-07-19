@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { LOGO_URL } from "../utils/constants";
 import { useContext } from "react";
 import UserContext from "../utils/UserContext";
@@ -30,7 +30,13 @@ const Header = () => {
           <li>
             <Link to={"/cart"}>Cart-{cartItems.length}</Link>
           </li>
-          <li className="font-bold px-4">{loggedInUser}</li>
+          <li className="font-bold px-4">
+            <Link to={"/user"}>
+              <button name="login" className="cursor-pointer">
+                {loggedInUser}
+              </button>
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
