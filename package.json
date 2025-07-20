@@ -8,7 +8,8 @@
     "dev": "parcel index.html --open",
     "lint": "eslint src",
     "format": "prettier --write src",
-    "test": "jest"
+    "test": "jest",
+    "watch-test": "jest --watch"
   },
   "repository": {
     "type": "git",
