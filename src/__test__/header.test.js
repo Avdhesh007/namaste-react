@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import appStore from "../utils/appStore";
 import "@testing-library/jest-dom";
 
-it("should render header component with login button", () => {
+it("should render header component with login button", async () => {
   render(
     <BrowserRouter>
       <Provider store={appStore}>
@@ -14,7 +14,7 @@ it("should render header component with login button", () => {
     </BrowserRouter>
   );
 
-  const loginButton = screen.getAllByRole("button");
+  const loginButton = await screen.getAllByRole("button", { name: "Login" });
   expect(loginButton.length).toBe(1);
 });
 
